@@ -1,24 +1,3 @@
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost/my_database');
-
-var db = mongoose.connection;
-
-// var Bookshelf = require('bookshelf');
-// var path = require('path');
-
-// var db = Bookshelf.initialize({
-//   client: 'sqlite3',
-//   connection: {
-//     host: '127.0.0.1',
-//     user: 'your_database_user',
-//     password: 'password',
-//     database: 'shortlydb',
-//     charset: 'utf8',
-//     filename: path.join(__dirname, '../db/shortly.sqlite')
-//   }
-// });
-
 // db.knex.schema.hasTable('urls').then(function(exists) {
 //   if (!exists) {
 //     db.knex.schema.createTable('urls', function (link) {
@@ -48,4 +27,25 @@ var db = mongoose.connection;
 //   }
 // });
 
-module.exports = mongoose;
+var mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost/my_database');
+
+var db = mongoose.connection;
+
+var userSchema = mongoose.Schema({
+  username: String,
+  password: String
+});
+
+var User = mongoose.model('User', userSchema);
+
+var linkSchema = mongoose.Schema({
+  url: String,
+  base_url: String,
+  code: String,
+  title: String,
+  visits: Number
+});
+
+var Link = mongoose.model('Link', linkSchema);
