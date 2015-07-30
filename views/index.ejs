@@ -41,7 +41,7 @@
   });
 </script>
 
-<% if (process.env.NODE_ENV !== 'production') { %>
+<% if (process.env.NODE_ENV === 'production') { %>
   <script src='/dist/client.js'></script>
 <% } else { %>
 
