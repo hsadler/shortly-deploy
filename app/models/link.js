@@ -25,6 +25,18 @@ var linkSchema = mongooseDb.Schema({
   visits: Number
 });
 
+linkSchema.methods.createHash = function(callback) {
+  var shasum = crypto.createHash('sha1');
+  shasum.update(this.url);
+  this.code = shasum.digest('hex').slice(0, 5);
+  this.save();
+};
+
+linkSchema.post('save', function(link) {
+  this.createHash();
+
+});
+
 var Link = mongooseDb.model('Link', linkSchema);
 
 module.exports = Link;
