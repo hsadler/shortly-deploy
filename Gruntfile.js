@@ -7,11 +7,17 @@ module.exports = function(grunt) {
       options: {
         separator: '\n'
       },
-      dist: {
-        src: ['public/lib/**/*.js','public/client/**/*.js'],
-        dest: 'public/dist/main.js'
+      js_files: {
+        files: {
+          'public/dist/lib.js': [
+            'public/lib/jquery.js',
+            'public/lib/underscore.js',
+            'public/lib/backbone.js',
+            'public/lib/handlebars.js'
+          ],
+          'public/dist/client.js': ['public/client/**/*.js']
+        }
       }
-      
     },
 
     mochaTest: {
@@ -30,11 +36,22 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      options: {
+        mangle: {
+          except: ['jQuery', 'Backbone']
+        }
+      },
+      my_target: {
+        files: {
+          'public/dist/lib.js': ['public/dist/lib.js'],
+          'public/dist/client.js': ['public/dist/client.js']
+        }
+      }
     },
 
     jshint: {
       files: [
-        // Add filespec list here
+        'public/client/**/*.js'
       ],
       options: {
         force: 'true',
@@ -105,12 +122,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', [
     'mochaTest',
-    'concat',
-    'cssmin'
+    'build'
   ]);
 
   grunt.registerTask('build', [
-    //other things
+    'jshint',
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -123,6 +142,9 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
       // add your production server task here
+      'test',
+      'build'
+      //other things
   ]);
 
 

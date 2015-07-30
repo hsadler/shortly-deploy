@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <title>Shortly</title>
-    <% if (process.env.NODE_ENV === 'production') { %>
+    <% if (process.env.NODE_ENV !== 'production') { %>
       <link rel="stylesheet" type="text/css" href="dist/style.min.css">
+      <script src="/dist/lib.js"></script>
     <% } else { %>
       <link rel="stylesheet" type="text/css" href="style.css">  
       <script src="/lib/jquery.js"></script>
