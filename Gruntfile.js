@@ -2,7 +2,16 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      options: {
+        separator: '\n'
+      },
+      dist: {
+        src: ['public/client/**/*.js'],
+        dest: 'public/dist/main.js'
+      }
+      
     },
 
     mochaTest: {
@@ -38,7 +47,11 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
-        // Add filespec list here
+      combine: {
+        files: {
+          'public/dist/style.min.css': ['public/**/*.css']
+        }
+      }
     },
 
     watch: {
@@ -91,10 +104,14 @@ module.exports = function(grunt) {
   ////////////////////////////////////////////////////
 
   grunt.registerTask('test', [
-    'mochaTest'
+    'mochaTest',
+    'concat',
+    'cssmin'
   ]);
 
   grunt.registerTask('build', [
+    'test'
+    //other things
   ]);
 
   grunt.registerTask('upload', function(n) {
